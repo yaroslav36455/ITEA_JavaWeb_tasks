@@ -23,7 +23,7 @@
                             В вашей корзине 0 товаров
                         </c:when>
                         <c:otherwise>
-                            В вашей корзине ${sessionScope.productsCart.count} товаров
+                            В вашей корзине ${sessionScope.productsCart.qwf} товаров
                         </c:otherwise>
                     </c:choose>
                     </font>
