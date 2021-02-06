@@ -1,0 +1,58 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+    <servlet>
+    <servlet-name>Index</servlet-name>
+    <servlet-class>ua.itea.controller.servlet.IndexServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>SignIn</servlet-name>
+    <servlet-class>ua.itea.controller.servlet.SignInServlet</servlet-class>
+  </servlet>
+  
+   <servlet>
+    <servlet-name>SignUp</servlet-name>
+    <servlet-class>ua.itea.controller.servlet.SignUpServlet</servlet-class>
+  </servlet>
+  
+   <servlet>
+    <servlet-name>Products</servlet-name>
+    <servlet-class>ua.itea.controller.servlet.ProductsServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>Cart</servlet-name>
+    <servlet-class>ua.itea.controller.servlet.CartServlet</servlet-class>
+  </servlet>
+  
+  
+  <servlet-mapping>
+    <servlet-name>Index</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>SignIn</servlet-name>
+    <url-pattern>/sign-in</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>SignUp</servlet-name>
+    <url-pattern>/sign-up</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Products</servlet-name>
+    <url-pattern>/products</url-pattern>
+  </servlet-mapping>
+    
+  <servlet-mapping>
+    <servlet-name>Cart</servlet-name>
+    <url-pattern>/cart</url-pattern>
+  </servlet-mapping>
+</web-app>
