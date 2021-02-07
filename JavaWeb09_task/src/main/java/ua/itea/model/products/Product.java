@@ -1,5 +1,7 @@
 package ua.itea.model.products;
 
+import java.util.Objects;
+
 public class Product {
 	private int id;
 	private String name;
@@ -43,5 +45,25 @@ public class Product {
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(category, description, id, name, picture, price);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Product other = (Product) obj;
+		return category == other.category && Objects.equals(description, other.description) && id == other.id
+				&& Objects.equals(name, other.name) && Objects.equals(picture, other.picture) && price == other.price;
 	}
 }

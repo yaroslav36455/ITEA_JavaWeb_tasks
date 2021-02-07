@@ -22,6 +22,7 @@ Released   : 20110926
 <link href="styles/style.css" rel="stylesheet" type="text/css" media="screen" />
 <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="javascript/jquery.poptrox-0.1.js"></script>
+<script type="text/javascript" src="javascript/own-scripts.js"></script>
 </head>
 <body>
 <div id="header" class="container">

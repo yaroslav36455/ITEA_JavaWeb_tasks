@@ -1,11 +1,10 @@
-package ua.itea.controller.cart;
+package ua.itea.controller;
 
 import java.util.ArrayList;
 
-import ua.itea.controller.SessionAttribute;
 import ua.itea.model.products.Product;
 
-public class Products extends ArrayList<Product> implements SessionAttribute {
+public class ProductsRack extends ArrayList<Product> implements SessionAttribute {
 	private static final long serialVersionUID = 7221076375832782699L;
 
 	@Override

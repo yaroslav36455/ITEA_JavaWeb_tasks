@@ -1,8 +1,6 @@
 package ua.itea.controller.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,15 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ua.itea.controller.ProductsCart;
 import ua.itea.controller.SessionAttributeManager;
-import ua.itea.controller.cart.Products;
 import ua.itea.model.products.Product;
 import ua.itea.service.ProductsService;
 
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = -3007201548968146383L;
 	private ProductsService productsService;
-	
+
 	{
 		productsService = new ProductsService();
 	}
@@ -27,36 +25,45 @@ public class CartServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 									    throws ServletException, IOException {		
 		RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/view/cart.jsp");
-//		SessionAttributeManager sam = new SessionAttributeManager(req.getSession());
-//		sam.ensureAttribute(Products.class, "Cart");
 		rd.forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-										throws ServletException, IOException {
+												throws ServletException, IOException {
 		SessionAttributeManager sam = new SessionAttributeManager(req.getSession());
-		Products products = sam.getAttribute(Products.class, "Cart");
-		
-		if(products == null) {
-			products = new Products();
-			sam.setAttribute(products, "Cart");
-		}
-		
+		ProductsCart productsCart = sam.getAttribute(ProductsCart.class);
+
 		try {
 			Integer productId = Integer.valueOf(req.getParameter("productId"));
+			Integer layOut = Integer.valueOf(req.getParameter("count"));
+			
 			Product product = productsService.getProduct(productId);
 			
-			if(product != null) {
-				products.add(product);
-			} else {
-				throw new IllegalArgumentException();
+			if (layOut <= 0) {
+				throw new IllegalArgumentException("Non positive products count");
 			}
-			
-			resp.sendRedirect("products");	
+
+			if (product == null) {
+				throw new IllegalArgumentException("Incorrect product id");
+			}
+
+			if(productsCart.containsKey(product)) {
+				Integer oldCount = productsCart.get(product);
+				Integer newCount = oldCount - layOut;
+				
+				if(newCount > 0) {
+					productsCart.put(product, newCount);
+				} else {
+					productsCart.remove(product);
+				}
+			}
+
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			resp.sendError(404);
 		}
+
+		
+		doGet(req, resp);
 	}
 }

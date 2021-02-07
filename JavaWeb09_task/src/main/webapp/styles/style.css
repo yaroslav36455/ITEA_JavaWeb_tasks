@@ -239,6 +239,16 @@ a:hover {
 	width: 530px;
 }
 
+.product:hover {
+	background-color: #0f0f0f;
+	cursor: pointer;
+}
+
+.product .controll {
+	display: flex;
+	align-items: center;
+}
+
 #sidebar {
 	float: left;
 	width: 270px;
