@@ -30,7 +30,7 @@
 		<constructor-arg name="dataSource">
 			<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 				<property name="url"
-					value="jdbc:sqlite:/home/vessel/Documents/apache-tomcat-9.0.41/webapps/JavaWeb12_task/WEB-INF/store.db?" />
+					value="jdbc:sqlite:../webapps/JavaWeb12_task/WEB-INF/store.db?" />
 				<property name="username" value="root" />
 				<property name="password" value="" />
 				<property name="driverClassName" value="org.sqlite.JDBC" />
