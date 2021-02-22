@@ -1,0 +1,28 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+	version="2.1">
+
+	<!-- Hibernate + SQLite -->
+	<persistence-unit name="product"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>ua.itea.model.products.Product</class>
+		<class>ua.itea.model.users.User</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver"
+				value="org.sqlite.JDBC" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:sqlite:../webapps/JavaWeb13_task/WEB-INF/store.db?" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLiteDialect"/>
+			
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.hbm2ddl.auto" value="none" />
+		</properties>
+	</persistence-unit>
+
+	<!-- See https://docs.oracle.com/javaee/7/tutorial/persistence-intro005.htm 
+		for further information -->
+</persistence>
