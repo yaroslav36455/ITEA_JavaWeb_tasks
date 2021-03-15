@@ -14,11 +14,15 @@ public class Cart implements Iterable<Entry<Product, Integer>> {
 		count = 0;
 	}
 	
-	public void put(Product product, Integer count)  {
-		Integer oldCount = cart.get(product);
+	public Integer put(Product product, Integer count) {
+		Integer infoCount = cart.get(product);
+		Integer oldCount = infoCount == null ? 0 : infoCount;
+		Integer newCount = oldCount + count;
 		
-		cart.put(product, (oldCount == null ? 0 : oldCount) + count);
-		this.count += count;
+		cart.put(product, newCount);
+		this.count += newCount - oldCount;
+		
+		return newCount;
 	}
 	
 	public Integer layOut(Product product, Integer count) {

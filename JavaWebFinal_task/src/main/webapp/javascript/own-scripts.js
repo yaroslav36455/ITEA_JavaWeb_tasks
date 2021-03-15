@@ -25,11 +25,13 @@ function buy(id) {
         alert("Ошибка ввода");
     } else {
         $.ajax({
-            type: "POST",
-            url: "products.html",
-            data: "productId=" + id + "&count=" + count,
-            success: function(data) {
-                $("#prodCount").html(data);
+            type: "PUT",
+            url: "cart/add",
+            data: JSON.stringify({"productId":id, "count":count}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(cartState) {
+                $("#prodCount").html(cartState.totalProductCount);
             }
         });
     }
@@ -44,18 +46,22 @@ function layOut(id) {
         alert("Ошибка ввода");
     } else {
         $.ajax({
-            type: "POST",
-            url: "cart.html",
-            data: "productId=" + id + "&count=" + count,
-            success: function(data) {
-            	var result = data.split("|");
-
-            	$("#prodCount").html(result[0]);
-            	if(result[1] > 0) {
-            		$("#theProdCount" + id).html(result[1]);
-            	} else {
-            		$("#card" + id).remove();
-            	}
+            type: "DELETE",
+            url: "cart/remove",
+            data: JSON.stringify({"productId":id, "count":count}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(cartState) {
+                var concernedProdCount = cartState.concernedProductCount; 
+                var totalProdCount = cartState.totalProductCount;
+                
+                if(concernedProdCount > 0) {
+                    $("#theProdCount" + id).html(concernedProdCount);
+                } else {
+                    $("#card" + id).remove();
+                }
+                
+                $("#prodCount").html(totalProdCount);
             }
         });
     }

@@ -3,11 +3,13 @@ package ua.itea.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ua.itea.controller.signin.Captcha;
 import ua.itea.controller.signin.SignInBlocker;
@@ -16,10 +18,7 @@ import ua.itea.controller.signup.SignUpHandler;
 import ua.itea.dao.DAOFactory;
 import ua.itea.dao.ProductsDAO;
 import ua.itea.dao.UserDAO;
-import ua.itea.db.sqlite.DAOFactorySqlite;
-import ua.itea.model.products.Cart;
 import ua.itea.model.products.Category;
-import ua.itea.model.products.Product;
 import ua.itea.model.products.Rack;
 import ua.itea.model.users.Authentication;
 import ua.itea.model.users.User;
@@ -35,44 +34,37 @@ public class SpringController {
 	private static final String SIGN_UP_SUCCESS = "sign-up-success";
 	private static final String SIGN_UP_FAILED = "sign-up-failed";
 	private static final String USER_HOME = "user-home";
-	
+
+	@Autowired
 	private DAOFactory daoFactory;
 
-	public SpringController() {
-		daoFactory = new DAOFactorySqlite();
+	public DAOFactory getDaoFactory() {
+		return daoFactory;
+	}
+
+	public void setDaoFactory(DAOFactory daoFactory) {
+		this.daoFactory = daoFactory;
 	}
 	
-	@RequestMapping(value = INDEX)
+
+	@GetMapping(value = INDEX)
 	public String index()  {
 		return INDEX;
 	}
 	
-	@RequestMapping(value = CART)
+	@GetMapping(value = CART)
 	public String cart()  {
 		return CART;
 	}
 	
-	@RequestMapping(value = CART, method = RequestMethod.POST, params = {"productId", "count"})
-	public @ResponseBody String cart(@RequestParam("productId") String productId,
-            		                 @RequestParam("count") String count,
-            		                 HttpSession session)  {
-		SessionAttributeManager sam = new SessionAttributeManager(session);
-		ProductsDAO productsDAO = daoFactory.getProductsDAO();
-		Cart cart = sam.getAttribute(Cart.class);
-		Product product = productsDAO.getProduct(Integer.valueOf(productId));
-		Integer newCount = cart.layOut(product, Integer.valueOf(count));
-		
-		return cart.getCount().toString() + "|" + newCount;
-	}
-	
-	@RequestMapping(value = USER_HOME)
+	@GetMapping(value = USER_HOME)
 	public String userHome(HttpSession session)  {
 		SessionAttributeManager sam = new SessionAttributeManager(session);
 		
 		return sam.hasAttribute(User.class) ? USER_HOME : ("redirect:" + SIGN_IN + ".html");
 	}
 	
-	@RequestMapping(value = PRODUCTS)
+	@GetMapping(value = PRODUCTS)
 	public String products(HttpSession session) {
 		SessionAttributeManager sam = new SessionAttributeManager(session);
 		ProductsDAO productsDAO = daoFactory.getProductsDAO();
@@ -82,7 +74,7 @@ public class SpringController {
 		return PRODUCTS;
 	}
 	
-	@RequestMapping(value = PRODUCTS, params = {"category"})
+	@GetMapping(value = PRODUCTS, params = {"category"})
 	public String products(@RequestParam("category") String category, HttpSession session)  {
 		SessionAttributeManager sam = new SessionAttributeManager(session);
 		ProductsDAO productsDAO = daoFactory.getProductsDAO();
@@ -92,22 +84,8 @@ public class SpringController {
 		sam.setAttribute(rack);
 		return PRODUCTS;
 	}
-	
-	@RequestMapping(value = PRODUCTS, method = RequestMethod.POST, params = {"productId", "count"})
-	public @ResponseBody String products(@RequestParam("productId") String productId,
-						                 @RequestParam("count") String count,
-						                 HttpSession session)  {
-		SessionAttributeManager sam = new SessionAttributeManager(session);
-		ProductsDAO productsDAO = daoFactory.getProductsDAO();
-		Cart cart = sam.getAttribute(Cart.class);
-		Product product = productsDAO.getProduct(Integer.valueOf(productId));
-		
-		cart.put(product, Integer.valueOf(count));
-		
-		return cart.getCount().toString();
-	}
 
-	@RequestMapping(value = SIGN_IN, method = RequestMethod.POST, params = { "login", "password" })
+	@PostMapping(value = SIGN_IN, params = { "login", "password" })
 	public String signInPost(@RequestParam("login") String login,
 							 @RequestParam("password") String password,
 							 HttpSession session) {
@@ -124,7 +102,7 @@ public class SpringController {
 		return signInGet(session);
 	}
 	
-	@RequestMapping(value = SIGN_IN)
+	@GetMapping(value = SIGN_IN)
 	public String signInGet(HttpSession session) {
 		SessionAttributeManager sam = new SessionAttributeManager(session);
 		String result = SIGN_IN;
@@ -147,7 +125,7 @@ public class SpringController {
 		return result;
 	}
 	
-	@RequestMapping(value = SIGN_IN, method = RequestMethod.POST, params = "captcha")
+	@PostMapping(value = SIGN_IN, params = "captcha")
 	public String signInBlocker(@RequestParam("captcha") String captcha, HttpSession session) {
 		SessionAttributeManager sam = new SessionAttributeManager(session);
 		SignInBlocker sib = sam.getAttribute(SignInBlocker.class);
@@ -156,7 +134,7 @@ public class SpringController {
 		return sib.isBlocked() ? SIGN_IN_BLOCKER : SIGN_IN;
 	}
 
-	@RequestMapping(value = SIGN_IN, method = RequestMethod.POST, params = {"out"})
+	@PostMapping(value = SIGN_IN, params = {"out"})
 	public String signOut(HttpSession session) {
 		SessionAttributeManager sam = new SessionAttributeManager(session);
 		sam.removeAttribute(User.class);
@@ -174,7 +152,7 @@ public class SpringController {
 		return SIGN_UP;
 	}
 
-	@RequestMapping(value = SIGN_UP, method = RequestMethod.POST)
+	@PostMapping(value = SIGN_UP)
 	public String signUpPost(HttpServletRequest req) {
 		SessionAttributeManager sam = new SessionAttributeManager(req.getSession());
 		RegisteringUserBuilder registeringUserBuilder = sam.getAttribute(RegisteringUserBuilder.class);
