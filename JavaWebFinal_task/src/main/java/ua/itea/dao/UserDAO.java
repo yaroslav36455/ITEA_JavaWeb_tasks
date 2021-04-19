@@ -1,6 +1,6 @@
 package ua.itea.dao;
 
-import ua.itea.controller.signup.RegisteringUser;
+import ua.itea.controller.api.handler.user.signup.RegisteringUser;
 import ua.itea.model.users.Authentication;
 import ua.itea.model.users.User;
 

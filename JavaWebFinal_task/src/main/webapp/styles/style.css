@@ -55,7 +55,7 @@ a:hover {
 }
 
 #wrapper {
-	background: url(images/img02.jpg) no-repeat center 115px;
+	background: url(/JavaWebFinal_task/img/img02.jpg) no-repeat center 115px;
 }
 
 .container {
@@ -211,17 +211,17 @@ a:hover {
 /* Background */
 
 #bg1 {
-	background: url(images/img06.jpg) repeat-y left top;
+	background: url(/JavaWebFinal_task/img/img06.jpg) repeat-y left top;
 }
 
 #bg2 {
-	background: url(images/img05.jpg) no-repeat left top;
+	background: url(/JavaWebFinal_task/img/img05.jpg) no-repeat left top;
 }
 
 #bg3 {
 	overflow: hidden;
 	padding: 50px;
-	background: url(images/img07.jpg) no-repeat left bottom;
+	background: url(/JavaWebFinal_task/img/img07.jpg) no-repeat left bottom;
 }
 
 
@@ -321,4 +321,32 @@ a:hover {
 	padding: 40px 0px 0px 0px;
 	text-align: center;
 	font-size: 12px;
+}
+
+/* sign up */
+#sign-up-table ul {
+	line-height: 100%;
+}
+
+#sign-up-table li {
+	margin: 5px;
+}
+
+/* classes fo list items */
+.good {
+	color: green;
+}
+
+.bad {
+	color: red;
+}
+
+.sendingExceptionMessage {
+	font-size: 125%;
+	color: red;
+}
+
+#sign-up-success {
+	color: green;
+	font-size: 200%;
 }

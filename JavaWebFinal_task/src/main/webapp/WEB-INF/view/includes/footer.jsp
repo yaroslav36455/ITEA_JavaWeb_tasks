@@ -22,7 +22,7 @@
                     <span id="prodCount">
                         <c:choose>
                             <c:when test="${empty sessionScope.cart}">0</c:when>
-                            <c:otherwise>${sessionScope.cart.count}</c:otherwise>
+                            <c:otherwise>${sessionScope.cart.getCount()}</c:otherwise>
                         </c:choose>
                     </span> товаров
                     </font>
@@ -31,12 +31,12 @@
                     </table>
                     <h2>Боковое меню</h2>
                     <ul>
-                        <li><a href="products.html?category=MEDIA">Медиа</a></li>
-                        <li><a href="products.html?category=OFFICE">Офис</a></li>
-                        <li><a href="products.html?category=CAD">САПР</a></li>
-                        <li><a href="sign-up.html">Регистрация</a></li>
-                        <li><a href="sign-in.html">Вход</a></li>
-                        <li><a href="cart.html">Корзина</a></li>
+                        <li><a href="${project}view/products?category=MEDIA">Медиа</a></li>
+                        <li><a href="${project}view/products?category=OFFICE">Офис</a></li>
+                        <li><a href="${project}view/products?category=CAD">САПР</a></li>
+                        <li><a href="${project}view/user/sign-up">Регистрация</a></li>
+                        <li><a href="${project}view/user/sign-in">Вход</a></li>
+                        <li><a href="${project}view/cart">Корзина</a></li>
                     </ul>
                 </div>
             </div>

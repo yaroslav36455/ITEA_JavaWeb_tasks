@@ -27,8 +27,8 @@
 		<tr>
 			<td>Адрес:</td>
 			<td><c:choose>
-                    <c:when test="${sessionScope.user.address eq 'LNR'}">Луганская Народная Республика</c:when>
                     <c:when test="${sessionScope.user.address eq 'DNR'}">Донецкая Народная Республика</c:when>
+                    <c:when test="${sessionScope.user.address eq 'LNR'}">Луганская Народная Республика</c:when>
                     <c:when test="${sessionScope.user.address eq 'KNR'}">Крымская Народная Республика</c:when>
                 </c:choose></td>
 		</tr>
@@ -37,11 +37,6 @@
 			<td>${sessionScope.user.comment}</td>
 		</tr>
 	</table>
-	<form action="sign-in.html" method="post">
-		<div>
-			<input type="hidden" name="out"> <input type='submit'
-				value='Выход' />
-		</div>
-	</form>
+	<button onclick="signOut()">Выход</button>
 </center>
 <%@ include file="includes/footer.jsp"%>

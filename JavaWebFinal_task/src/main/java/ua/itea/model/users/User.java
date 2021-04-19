@@ -41,7 +41,7 @@ public class User {
 		/* empty */
 	}
 	
-	public User(long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	

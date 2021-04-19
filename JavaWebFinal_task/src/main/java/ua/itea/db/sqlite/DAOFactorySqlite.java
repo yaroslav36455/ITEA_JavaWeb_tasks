@@ -12,7 +12,7 @@ public class DAOFactorySqlite implements DAOFactory {
 	private ProductsDAOSqlite productsDAOSqlite;
 	
 	public DAOFactorySqlite() {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("product").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("entity").createEntityManager();
 		userDAOSqlite = new UserDAOSqlite(entityManager);
 		productsDAOSqlite = new ProductsDAOSqlite(entityManager);
 	}

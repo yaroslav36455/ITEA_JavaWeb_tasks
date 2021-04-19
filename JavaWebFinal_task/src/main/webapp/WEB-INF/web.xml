@@ -11,18 +11,98 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<!-- View -->
+	<!-- General -->
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
-		<url-pattern>/cart/add</url-pattern>
+		<url-pattern>/view/index</url-pattern>
 	</servlet-mapping>
-	
+
+	<!-- Products -->
 	<servlet-mapping>
-        <servlet-name>spring</servlet-name>
-        <url-pattern>/cart/remove</url-pattern>
-    </servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/view/products</url-pattern>
+	</servlet-mapping>
+
+	<!-- Cart -->
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/view/cart</url-pattern>
+	</servlet-mapping>
+
+	<!-- User -->
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/view/user/home</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
-		<url-pattern>*.html</url-pattern>
+		<url-pattern>/view/user/sign-up</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/view/user/sign-in</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- API -->
+	<!-- Products -->
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/products</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/products/byid</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/products/all</url-pattern>
+	</servlet-mapping>
+
+	<!-- Cart -->
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/cart/products</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/cart/products/add</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/cart/products/remove</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/cart/products/set</url-pattern>
+	</servlet-mapping>
+
+	<!-- User -->
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/user</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/user/sign-up</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/user/session</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/user/sign-in/blocker</url-pattern>
 	</servlet-mapping>
 </web-app>

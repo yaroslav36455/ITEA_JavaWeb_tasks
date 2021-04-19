@@ -1,55 +1,83 @@
 package ua.itea.model.products;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class Cart implements Iterable<Entry<Product, Integer>> {
-	private Map<Product, Integer> cart;
-	private Integer count;
+import ua.itea.controller.api.handler.cart.ProductCountException;
+
+import java.util.Set;
+import java.util.TreeMap;
+
+public class Cart implements Iterable<Entry<Integer, Integer>> {
+	private Map<Integer, Integer> map;
 	
 	public Cart() {
-		cart = new HashMap<Product, Integer>();
-		count = 0;
+		map = new TreeMap<Integer, Integer>();
 	}
 	
-	public Integer put(Product product, Integer count) {
-		Integer infoCount = cart.get(product);
-		Integer oldCount = infoCount == null ? 0 : infoCount;
+	public Integer put(Integer id, Integer count) throws ProductCountException {
+		if(count <= 0) {
+			throw new ProductCountException();
+		}
+		
+		Integer oldCount = getCount(id);
 		Integer newCount = oldCount + count;
 		
-		cart.put(product, newCount);
-		this.count += newCount - oldCount;
+		map.put(id, newCount);
 		
 		return newCount;
 	}
 	
-	public Integer layOut(Product product, Integer count) {
-		Integer oldCount = cart.get(product);
-		Integer newCount = 0;
+	public Integer layOut(Integer id, Integer count) throws ProductCountException {
+		if(count <= 0) {
+			throw new ProductCountException();
+		}
 		
-		if(oldCount != null) {
-			newCount = Math.max(oldCount - count, 0);
-			
-			if(newCount > 0) {
-				cart.put(product, newCount);
-			} else {
-				cart.remove(product);
-			}
-			
-			this.count -= oldCount - newCount;
+		Integer oldCount = getCount(id);
+		Integer newCount = oldCount - count;
+		
+		if(newCount > 0) {
+			map.put(id, newCount);
+		} else {
+			map.remove(id);
+			newCount = 0;
 		}
 		
 		return newCount;
 	}
+	
+	public Integer set(Integer id, Integer count) throws ProductCountException {
+		if(count < 0) {
+			throw new ProductCountException();
+		} else if (count == 0) {
+			map.remove(id);
+		} else {
+			map.put(id, count);	
+		}
+		
+		return count;
+	}
+	
+	public Integer getCountKinds() {
+		return map.size();
+	}
 
 	public Integer getCount() {
-		return count;
+		return map.entrySet().stream().mapToInt(entry -> entry.getValue()).sum();
+	}
+	
+	public Integer getCount(Integer id) {
+		Integer infoCount = map.get(id);
+		return infoCount == null ? 0 : infoCount;
+	}
+	
+	public Set<Integer> getIds() {
+		return map.keySet();
 	}
 
 	@Override
-	public Iterator<Entry<Product, Integer>> iterator() {
-		return cart.entrySet().iterator();
+	public Iterator<Entry<Integer, Integer>> iterator() {
+		return map.entrySet().iterator();
 	}
 }

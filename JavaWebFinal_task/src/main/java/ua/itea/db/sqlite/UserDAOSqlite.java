@@ -5,13 +5,11 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceException;
 
-import ua.itea.controller.signup.AddressHandler;
-import ua.itea.controller.signup.CommentHandler;
-import ua.itea.controller.signup.EmailHandler;
-import ua.itea.controller.signup.GenderHandler;
-import ua.itea.controller.signup.LoginHandler;
-import ua.itea.controller.signup.NameHandler;
-import ua.itea.controller.signup.RegisteringUser;
+import ua.itea.controller.api.handler.user.signup.CommentHandler;
+import ua.itea.controller.api.handler.user.signup.EmailHandler;
+import ua.itea.controller.api.handler.user.signup.LoginHandler;
+import ua.itea.controller.api.handler.user.signup.NameHandler;
+import ua.itea.controller.api.handler.user.signup.RegisteringUser;
 import ua.itea.dao.UserDAO;
 import ua.itea.model.users.Authentication;
 import ua.itea.model.users.User;
@@ -23,15 +21,15 @@ public class UserDAOSqlite implements UserDAO {
 			+ ", `password` VARBINARY(" + Cryptographer.getBytes() + ") NOT NULL"
 			+ ", `name` VARCHAR(" + NameHandler.getMaxLength() + ") NOT NULL"
 			+ ", `email` VARCHAR(" + EmailHandler.getMaxLength() + ") NOT NULL"
-			+ ", `address` VARCHAR(" + AddressHandler.getMaxLength() + ") NOT NULL"
-			+ ", `gender` VARCHAR(" + GenderHandler.getMaxLength() + ") NOT NULL"
+			+ ", `address` INTEGER NOT NULL"
+			+ ", `gender` INTEGER NOT NULL"
 			+ ", `comment` VARCHAR(" + CommentHandler.getMaxLength() + ") NOT NULL);";
 	private static final String UNIQUE_LOGIN
 			= "CREATE UNIQUE INDEX IF NOT EXISTS `login_unique` on `users` (`login`);";
 	private static final String UNIQUE_EMAIL
 			= "CREATE UNIQUE INDEX IF NOT EXISTS `email_unique` on `users` (`email`);";
 	private static final String INSERT_USER 
-			= "INSERT OR FAIL INTO `users`"
+			= "INSERT OR IGNORE INTO `users`"
 			+ " (`login`, `password`, `name`, `email`, `address`, `gender`, `comment`)"
 			+ " VALUES (?, ?, ?, ?, ?, ?, ?);";
 	private static final String SELECT_USER
@@ -62,7 +60,7 @@ public class UserDAOSqlite implements UserDAO {
 	public boolean insert(RegisteringUser regUser) {
 		int result = 0;
 		try {
-			int i = 0;
+			int i = 0;		
 			entityManager.getTransaction().begin();
 			result = entityManager.createNativeQuery(INSERT_USER)
 									.setParameter(++i, regUser.getLogin())

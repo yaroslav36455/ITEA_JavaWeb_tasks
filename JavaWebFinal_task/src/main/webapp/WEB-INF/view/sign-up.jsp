@@ -2,83 +2,124 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
 <%@ include file="includes/header.jsp"%>
-<form action="sign-up.html" method="post">
 	<center>
-		<table border="0">
+		<div id="sign-up-success" hidden>Регистрация прошла успешно</div>
+		<table id="sign-up-table" border="0">
 			<tr>
 				<td>Имя:</td>
-				<td><input value="${sessionScope.registeringUserBuilder.name}"
-					type="text" name="name"></td>
-				<td>${sessionScope.signUpHandler.nameTip}</td>
+				<td><input id="name" type="text" required onkeyup="handleNameInput()"/></td>
+				<td>
+				    <ul>
+				        <li id="namePresent">Имя присутствует</li>
+				        <li id="nameLength">Длина имени находится в пределах от 2 до 15 символов</li>
+				        <li id="nameCharCategory">Присутствуют только символы A-Z и a-z</li>
+				        <li id="nameCase">Первый символ в верхнем регистре, а все прочие - в нижнем</li>
+				    </ul>
+				</td>
 			</tr>
 			<tr>
 				<td>Логин:</td>
-				<td><input value="${sessionScope.registeringUserBuilder.login}"
-					type="text" name="login"></td>
-				<td>${sessionScope.signUpHandler.loginTip}</td>
+				<td>
+				    <input id="login" type="text" autocomplete="on"
+				            required onkeyup="handleLoginInput()"/>
+				</td>
+				<td>
+				    <ul>
+				        <li id="loginPresent">Логин присутствует</li>
+				        <li id="loginLength">Длина логина находится в пределах от 6 до 14 символов</li>
+				        <li id="loginCharCategory">Присутствуют только символы A-Z, a-z, 0-9 и пунктуации</li>
+				    </ul>
+				</td>
 			</tr>
 			<tr>
 				<td>Пароль:</td>
-				<td><input
-					value=""
-					type="password" name="password"></td>
-				<td>${sessionScope.signUpHandler.passwordTip}</td>
+				<td>
+				    <input id="password" type="password" autocomplete="on" 
+				            required onkeyup="handlePasswordInput()"/>
+				</td>
+				<td>
+				    <ul>
+				        <li id="passwordPresent">Пароль присутствует</li>
+				        <li id="passwordLength">Длина пароля находится в пределах от 8 до 15 символов</li>
+				        <li id="passwordUppercaseLetters">Символы A-Z присутствуют</li>
+				        <li id="passwordLowercaseLetters">Символы a-z присутствуют</li>
+				        <li id="passwordDigits">Символы 0-9 присутствуют</li>
+				        <li id="passwordPunctuations">Символы пунктуации присутствуют</li>
+				    </ul> 
+                </td>
 			</tr>
 			<tr>
 				<td>Повторите пароль:</td>
-				<td><input
-					value=""
-					type="password" name="retypePassword"></td>
-				<td>${sessionScope.signUpHandler.retypePasswordTip}</td>
+				<td>
+				    <input id="retypePassword" type="password"
+				            required onkeyup="handleRetypePasswordInput()"/>
+				</td>
+				<td>
+				    <ul id="retypePasswordTip" hidden="true">
+                        <li id="retypePasswordMatch">Пароли совпадают</li>
+                    </ul>
+				</td>
 			</tr>
 			<tr>
 				<td>e-mail:</td>
-				<td><input value="${sessionScope.registeringUserBuilder.email}"
-					type="text" name="email"></td>
-				<td>${sessionScope.signUpHandler.emailTip}</td>
+				<td>
+				    <input id="email" type="text" autocomplete="on" required onkeyup="handleEmailInput()"/>
+				</td>
+				<td id="emailTip">
+				    <ul>
+                        <li id="emailPresent">Почта присутствует</li>
+                        <li id="emailCorrect">Почта корректна</li>
+                        <li id="emailLength">Длина почты не более 100 символов</li>
+                    </ul>
+				</td>
 			</tr>
 			<tr>
 				<td>Адрес:</td>
-				<td><select name="address">
-						<option
-							${sessionScope.registeringUserBuilder.address eq 'DNR' ? 'selected' : ''}
-							value="DNR">Донецкая Народная Республика</option>
-						<option
-							${sessionScope.registeringUserBuilder.address eq 'LNR' ? 'selected' : ''}
-							value="LNR">Луганская Народная Республика</option>
-						<option
-							${sessionScope.registeringUserBuilder.address eq 'KNR' ? 'selected' : ''}
-							value="KNR">Крымская Народная Республика</option>
-				</select></td>
-				<td>${sessionScope.signUpHandler.addressTip}</td>
+				<td>
+				    <select id="address">
+						<option value="DNR">Донецкая Народная Республика</option>
+						<option value="LNR">Луганская Народная Республика</option>
+						<option value="KNR">Крымская Народная Республика</option>
+				    </select>
+				</td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>Пол:</td>
-				<td>Mужской<input
-					${sessionScope.registeringUserBuilder.gender eq 'MALE' ? 'checked' : ''}
-					value="MALE" type="radio" name="gender" />Женский<input
-					${sessionScope.registeringUserBuilder.gender eq 'FEMALE' ? 'checked' : ''}
-					value="FEMALE" type="radio" name="gender" />
+				<td id="gender">
+				    Mужской<input value="MALE" type="radio" name="gen" checked/>
+				    Женский<input value="FEMALE" type="radio" name="gen" />
 				</td>
-				<td>${sessionScope.signUpHandler.genderTip}</td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>Комментарий:</td>
-				<td><textarea name="comment" cols="20" rows="10">${sessionScope.registeringUserBuilder.comment}</textarea></td>
-				<td>${sessionScope.signUpHandler.commentTip}</td>
+				<td><textarea id="comment" cols="30" rows="10" required onkeyup="handleCommentInput()"></textarea></td>
+				<td id="commentTip">
+				    <ul>
+                        <li id="commentPresent">Комментарий присутствует</li>
+                        <li id="commentLength">Количество символов 
+                            <span id="commentChars">0</span>/<span id="commentCharsTotal">256</span></li>
+                    </ul>
+				</td>
 			</tr>
 			<tr>
 				<td>Я согласен/согласна установить Амига браузер:</td>
-				<td><input
-					${sessionScope.registeringUserBuilder.amigaAgree ? 'checked' : ''}
-					type="checkbox" name="amigaAgree"></td>
-				<td>${sessionScope.signUpHandler.amigaAgreeTip}</td>
+				<td><input id="amigaAgree" type="checkbox" required onchange="handleAmigaAgreeInput()"/></td>
+				<td>
+				    <ul id="amigaAgreeTip">
+                        <li id="amigaAgreePresent">Принято</li>
+                    </ul>
+				</td>
 			</tr>
 			<tr>
 				<td></td>
-				<td align="right"><input type="submit" value="Отправить"></td>
+				<td align="right">
+					<div class="sendingExceptionMessage" hidden id="loginAndOrEmailUsed">Ошибка: такие логин и/или email уже используются</div>
+					<div class="sendingExceptionMessage" hidden id="invalidField">Ошибка: вы не заполнили или заполнили некорректно одно или боллее полей</div>
+					<button onclick="signUp()">Отправить</button>
+				</td>
 			</tr>
 		</table>
 	</center>
-</form>
 <%@ include file="includes/footer.jsp"%>

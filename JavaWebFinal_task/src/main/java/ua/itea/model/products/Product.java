@@ -18,6 +18,8 @@ import javax.persistence.Table;
 @NamedQuery(name = "GetAllMEDIA", query = "SELECT p FROM Product p WHERE p.category = ua.itea.model.products.Category.MEDIA")
 @NamedQuery(name = "GetAllOFFICE", query = "SELECT p FROM Product p WHERE p.category = ua.itea.model.products.Category.OFFICE")
 @NamedQuery(name = "GetAllCAD", query = "SELECT p FROM Product p WHERE p.category = ua.itea.model.products.Category.CAD")
+@NamedQuery(name = "GetById", query = "SELECT p FROM Product p WHERE p.id IN (:ids)")
+@NamedQuery(name = "IsExists", query = "SELECT true FROM Product p WHERE p.id = :id")
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,11 +104,5 @@ public class Product {
 		Product other = (Product) obj;
 		return category == other.category && Objects.equals(description, other.description) && id == other.id
 				&& Objects.equals(name, other.name) && Objects.equals(picture, other.picture) && price == other.price;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description
-				+ ", category=" + category + ", picture=" + picture + "]";
 	}
 }
