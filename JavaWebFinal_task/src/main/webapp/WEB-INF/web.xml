@@ -105,4 +105,9 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/api/user/sign-in/blocker</url-pattern>
 	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/api/user/sign-in/attempts</url-pattern>
+	</servlet-mapping>
 </web-app>
